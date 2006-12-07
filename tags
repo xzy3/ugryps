@@ -1,0 +1,130 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+AOPT	Makefile	/^AOPT=$/;"	m
+AS	Makefile	/^AS=\/usr\/cross\/bin\/i586-elf-as$/;"	m
+CC	Makefile	/^CC=\/usr\/cross\/bin\/i586-elf-g++$/;"	m
+CFLAGS	Makefile	/^CFLAGS= -nostartfiles -nostdlib -fno-rtti -fno-exceptions -Wall -Werror$/;"	m
+CXX	Makefile	/^CXX=\/usr\/cross\/bin\/i586-elf-g++$/;"	m
+EXT_C	multiboot.h	38;"	d
+EXT_C	multiboot.h	40;"	d
+IDT_H	idt.h	2;"	d
+LINE_CHARS	vgaTextSink.h	7;"	d
+LINK	Makefile	/^LINK=\/usr\/cross\/bin\/i586-elf-ld$/;"	m
+LOPT	Makefile	/^LOPT= -T linker.ld $/;"	m
+MAX_CHARS	vgaTextSink.h	8;"	d
+MULTIBOOT_BOOTLOADER_MAGIC	multiboot.h	31;"	d
+MULTIBOOT_HEADER_FLAGS	multiboot.h	25;"	d
+MULTIBOOT_HEADER_FLAGS	multiboot.h	27;"	d
+MULTIBOOT_HEADER_MAGIC	multiboot.h	21;"	d
+STACK_SIZE	multiboot.h	34;"	d
+STDLIB_H	stdlib.h	2;"	d
+VGATEXTSINK_H	vgaTextSink.h	2;"	d
+__color	vgaTextSink.h	/^	char __color;$/;"	m	class:kernel::vgaTextSink
+__offset	vgaTextSink.h	/^	unsigned short	__offset;$/;"	m	class:kernel::vgaTextSink
+__vgaMemory	vgaTextSink.h	/^	char* __vgaMemory;$/;"	m	class:kernel::vgaTextSink
+addr	multiboot.h	/^  unsigned long addr;$/;"	m	struct:aout_symbol_table
+addr	multiboot.h	/^  unsigned long addr;$/;"	m	struct:elf_section_header_table
+aout_sym	multiboot.h	/^    aout_symbol_table_t aout_sym;$/;"	m	union:multiboot_info::<anonymous>
+aout_symbol_table	multiboot.h	/^typedef struct aout_symbol_table$/;"	s
+aout_symbol_table_t	multiboot.h	/^} aout_symbol_table_t;$/;"	t
+backspace	vgaTextSink.cpp	/^void vgaTextSink::backspace(void) {$/;"	f	class:vgaTextSink
+base	idt.h	/^	unsigned int base:32;$/;"	m	struct:idt_pointer_
+base_addr_high	multiboot.h	/^  unsigned long base_addr_high;$/;"	m	struct:memory_map
+base_addr_low	multiboot.h	/^  unsigned long base_addr_low;$/;"	m	struct:memory_map
+boot_device	multiboot.h	/^  unsigned long boot_device;$/;"	m	struct:multiboot_info
+bs	Makefile	/^	dd if=grub_disk.img of=\/dev\/fd0 bs=512 count=2880$/;"	m
+bss_end_addr	multiboot.h	/^  unsigned long bss_end_addr;$/;"	m	struct:multiboot_header
+checksum	multiboot.h	/^  unsigned long checksum;$/;"	m	struct:multiboot_header
+clear	vgaTextSink.cpp	/^void vgaTextSink::clear(void) {$/;"	f	class:vgaTextSink
+cmdline	multiboot.h	/^  unsigned long cmdline;$/;"	m	struct:multiboot_info
+elf_sec	multiboot.h	/^    elf_section_header_table_t elf_sec;$/;"	m	union:multiboot_info::<anonymous>
+elf_section_header_table	multiboot.h	/^typedef struct elf_section_header_table$/;"	s
+elf_section_header_table_t	multiboot.h	/^} elf_section_header_table_t;$/;"	t
+endl	stdlib.h	/^	const static char endl = '\\n';$/;"	v
+entry_addr	multiboot.h	/^  unsigned long entry_addr;$/;"	m	struct:multiboot_header
+f	Makefile	/^	dd if=grub_disk.img of=\/dev\/fd0 bs=512 count=2880$/;"	m
+flags	multiboot.h	/^  unsigned long flags;$/;"	m	struct:multiboot_header
+flags	multiboot.h	/^  unsigned long flags;$/;"	m	struct:multiboot_info
+getColor	vgaTextSink.cpp	/^char vgaTextSink::getColor(void) {$/;"	f	class:vgaTextSink
+header_addr	multiboot.h	/^  unsigned long header_addr;$/;"	m	struct:multiboot_header
+highByte	dataMacro.h	/^static __inline__ kByte highByte(kWord value) {$/;"	f
+highWord	dataMacro.h	/^static __inline__ kWord highWord(kDWord value) {$/;"	f
+idt_entry	idt.h	/^typedef idt_entry_ idt_entry;$/;"	t
+idt_entry_	idt.h	/^struct idt_entry_ {$/;"	s
+idt_pointer	idt.h	/^typedef idt_pointer_ idt_pointer;$/;"	t
+idt_pointer_	idt.h	/^struct idt_pointer_ {$/;"	s
+inb	kPortIO.h	/^static __inline__ kByte inb(kWord port) {$/;"	f
+inl	kPortIO.h	/^static __inline__ kDWord inl(kWord port) {$/;"	f
+inw	kPortIO.h	/^static __inline__ kWord inw(kWord port) {$/;"	f
+ioWait	kPortIO.h	/^static __inline__ void ioWait(void) {$/;"	f
+kByte	ktypes.h	/^typedef unsigned char  kByte;$/;"	t
+kDWord	ktypes.h	/^typedef unsigned int   kDWord;$/;"	t
+kQWord	ktypes.h	/^typedef unsigned long long int kQWord;$/;"	t
+kWord	ktypes.h	/^typedef unsigned short kWord;$/;"	t
+kernel	stdlib.h	/^namespace kernel {$/;"	n
+kernel	vgaTextSink.h	/^namespace kernel {$/;"	n
+kmain	kmain.c	/^int kmain(unsigned long magicNumber, unsigned long multiboot_info) {$/;"	f
+kout	stdlib.h	/^	kernel::vgaTextSink kout;$/;"	v
+length_high	multiboot.h	/^  unsigned long length_high;$/;"	m	struct:memory_map
+length_low	multiboot.h	/^  unsigned long length_low;$/;"	m	struct:memory_map
+limit	idt.h	/^	unsigned int limit:16;$/;"	m	struct:idt_pointer_
+load_addr	multiboot.h	/^  unsigned long load_addr;$/;"	m	struct:multiboot_header
+load_end_addr	multiboot.h	/^  unsigned long load_end_addr;$/;"	m	struct:multiboot_header
+lowByte	dataMacro.h	/^static __inline__ kByte lowByte(kWord value) {$/;"	f
+lowWord	dataMacro.h	/^static __inline__ kWord lowWord(kDWord value) {$/;"	f
+magic	multiboot.h	/^  unsigned long magic;$/;"	m	struct:multiboot_header
+mem_lower	multiboot.h	/^  unsigned long mem_lower;$/;"	m	struct:multiboot_info
+mem_upper	multiboot.h	/^  unsigned long mem_upper;$/;"	m	struct:multiboot_info
+memory_map	multiboot.h	/^typedef struct memory_map$/;"	s
+memory_map_t	multiboot.h	/^} memory_map_t;$/;"	t
+mmap_addr	multiboot.h	/^  unsigned long mmap_addr;$/;"	m	struct:multiboot_info
+mmap_length	multiboot.h	/^  unsigned long mmap_length;$/;"	m	struct:multiboot_info
+mod_end	multiboot.h	/^  unsigned long mod_end;$/;"	m	struct:module
+mod_start	multiboot.h	/^  unsigned long mod_start;$/;"	m	struct:module
+mods_addr	multiboot.h	/^  unsigned long mods_addr;$/;"	m	struct:multiboot_info
+mods_count	multiboot.h	/^  unsigned long mods_count;$/;"	m	struct:multiboot_info
+module	multiboot.h	/^typedef struct module$/;"	s
+module_t	multiboot.h	/^} module_t;$/;"	t
+multiboot_header	multiboot.h	/^typedef struct multiboot_header$/;"	s
+multiboot_header_t	multiboot.h	/^} multiboot_header_t;$/;"	t
+multiboot_info	multiboot.h	/^typedef struct multiboot_info$/;"	s
+multiboot_info_t	multiboot.h	/^} multiboot_info_t;$/;"	t
+num	multiboot.h	/^  unsigned long num;$/;"	m	struct:elf_section_header_table
+offset1	idt.h	/^	unsigned int offset1:16;$/;"	m	struct:idt_entry_
+offset2	idt.h	/^	unsigned int offset2:16;$/;"	m	struct:idt_entry_
+operator <<	vgaTextSink.cpp	/^vgaTextSink& vgaTextSink::operator<< (char c) {$/;"	f	class:vgaTextSink
+operator <<	vgaTextSink.cpp	/^vgaTextSink& vgaTextSink::operator<< (sString string) {$/;"	f	class:vgaTextSink
+ount	Makefile	/^	dd if=grub_disk.img of=\/dev\/fd0 bs=512 count=2880$/;"	m
+outb	kPortIO.h	/^static __inline__ void outb(kWord port, kByte value) {$/;"	f
+outl	kPortIO.h	/^static __inline__ void outl(kWord port, kDWord value) {$/;"	f
+outw	kPortIO.h	/^static __inline__ void outw(kWord port, kWord value) {$/;"	f
+pattern	idt.h	/^	unsigned int pattern:5;$/;"	m	struct:idt_entry_
+present	idt.h	/^	unsigned int present:1;$/;"	m	struct:idt_entry_
+putCursor	vgaTextSink.cpp	/^bool vgaTextSink::putCursor(unsigned short pos) { $/;"	f	class:vgaTextSink
+putCursor	vgaTextSink.cpp	/^void vgaTextSink::putCursor(void) {$/;"	f	class:vgaTextSink
+reserved	multiboot.h	/^  unsigned long reserved;$/;"	m	struct:aout_symbol_table
+reserved	multiboot.h	/^  unsigned long reserved;$/;"	m	struct:module
+ring	idt.h	/^	unsigned int ring:2;$/;"	m	struct:idt_entry_
+sString	ktypes.h	/^typedef char*	       sString;$/;"	t
+scroll	vgaTextSink.cpp	/^bool vgaTextSink::scroll(unsigned short lines) {$/;"	f	class:vgaTextSink
+selector	idt.h	/^	unsigned int selector:16;$/;"	m	struct:idt_entry_
+setColor	vgaTextSink.cpp	/^void vgaTextSink::setColor(char color) {$/;"	f	class:vgaTextSink
+shndx	multiboot.h	/^  unsigned long shndx;$/;"	m	struct:elf_section_header_table
+size	multiboot.h	/^  unsigned long size;$/;"	m	struct:elf_section_header_table
+size	multiboot.h	/^  unsigned long size;$/;"	m	struct:memory_map
+std	stdlib.h	/^namespace std {$/;"	n
+string	multiboot.h	/^  unsigned long string;$/;"	m	struct:module
+strsize	multiboot.h	/^  unsigned long strsize;$/;"	m	struct:aout_symbol_table
+tabsize	multiboot.h	/^  unsigned long tabsize;$/;"	m	struct:aout_symbol_table
+type	multiboot.h	/^  unsigned long type;$/;"	m	struct:memory_map
+u	multiboot.h	/^  } u;$/;"	m	struct:multiboot_info
+unused	idt.h	/^	unsigned int unused:16;$/;"	m	struct:idt_pointer_
+unused	idt.h	/^	unsigned int unused:5;$/;"	m	struct:idt_entry_
+vgaTextSink	vgaTextSink.cpp	/^vgaTextSink::vgaTextSink() {$/;"	f	class:vgaTextSink
+vgaTextSink	vgaTextSink.h	/^class vgaTextSink {$/;"	c	namespace:kernel
+zero	idt.h	/^	unsigned int zero:3;$/;"	m	struct:idt_entry_
+~vgaTextSink	vgaTextSink.cpp	/^vgaTextSink::~vgaTextSink() { }$/;"	f	class:vgaTextSink
