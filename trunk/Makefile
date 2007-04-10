@@ -1,6 +1,6 @@
 CC=/usr/cross/bin/i586-elf-g++
 CXX=/usr/cross/bin/i586-elf-g++
-CFLAGS= -nostartfiles -nostdlib -fno-rtti -fno-exceptions -Wall -Werror
+CXXFLAGS= -nostartfiles -nostdlib -fno-rtti -fno-exceptions -Wall -Werror
 
 LINK=/usr/cross/bin/i586-elf-ld
 LOPT= -T linker.ld 
@@ -10,22 +10,29 @@ AOPT=
 
 #build the kernel
 
+all : kernel.elf
 kernel.elf : kmain.o loader.o vgaTextSink.o linker.ld
 	$(LINK) -o $@ $(LOPT) $^
 
-kmain.o : kmain.c vgaTextSink.h stdlib.h multiboot.h idt.h
+kmain.o : kmain.cpp vgaTextSink.h stdlib.h multiboot.h idt.h
 vgaTextSink.o : vgaTextSink.h vgaTextSink.cpp ktypes.h dataMacro.h kPortIO.h
 loader.o : loader.s
+
+#compile the kernel make a disk image and then fire up bochs
+.PHONY : test
+
+test : boot-img
+	bochs
 
 #copy the kernel to a bootable disk img
 .PHONY : boot-disk boot-img 
 
-boot-img :
+boot-img : kernel.elf
 	cp grub_disk.img ~/boot_disk.img
 	sudo losetup /dev/loop/0 ~/boot_disk.img
-	mount /dev/loop/0 
-	cp kernel.elf /media/img/boot/kernel.elf
-	cp menu.cfg /media/img/boot/menu.cfg
+	mount /dev/loop/0
+	cp kernel.elf /mnt/loop/boot/kernel.elf
+	cp menu.cfg /mnt/loop/boot/menu.cfg
 	umount /dev/loop/0
 	sudo losetup -d /dev/loop/0
 
@@ -35,4 +42,4 @@ boot-disk :
 
 .PHONY : clean
 clean :
-	rm *.o
+	rm object/*.o

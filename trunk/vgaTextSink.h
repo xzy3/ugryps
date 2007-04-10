@@ -1,11 +1,7 @@
 #ifndef VGATEXTSINK_H
 #define VGATEXTSINK_H
 
-
 #include "ktypes.h"
-
-#define LINE_CHARS 160
-#define MAX_CHARS 4000
 
 namespace kernel {
 
@@ -14,6 +10,9 @@ public:
 
 	vgaTextSink();
 	~vgaTextSink();
+
+    //!@brief put the vga in 80x25 text mode
+    void init();
 
 	vgaTextSink& operator<< (char c);
 	vgaTextSink& operator<< (sString string);
@@ -27,15 +26,17 @@ public:
 	void clear();
 
 	bool putCursor(unsigned short pos);
-
 	void putCursor(void);
 
 private:
 
-	char* __vgaMemory;
+    //point to the begining of vga memory
+	static char* const __vgaMemory;
 	unsigned short	__offset;
 	char __color;
 
+    const static int LINE_CHARS;
+    const static int MAX_CHARS;
 }; //end class vgaTextSink
 
 } //end namespace kernal
