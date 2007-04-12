@@ -1,11 +1,11 @@
 #ifndef STDLIB_H
 #define STDLIB_H
 
-#include "vgaTextSink.h"
+#include "vga/textSink.h"
 
 namespace kernel {
 
-	kernel::vgaTextSink kout;
+	vga::textSink kout;
 
 } //end namespace kernel
 
