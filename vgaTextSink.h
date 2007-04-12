@@ -1,44 +1,77 @@
-#ifndef VGATEXTSINK_H
-#define VGATEXTSINK_H
+#ifndef TEXTSINK_H
+#define TEXTSINK_H
 
 #include "ktypes.h"
 
-namespace kernel {
+namespace vga {
 
-class vgaTextSink {
-public:
+    enum vga_color {
+        black = 0, blue = 1, green = 2, cyan = 3,
+        red = 4, magenta = 5, brown = 6, 
+        light_grey = 7, dark_grey = 8, 
+        light_blue = 9, light_green = 10,
+        light_cyan = 11, light_red = 12,
+        light_magenta = 13, light_brown = 14,
+        white = 15 };
 
-	vgaTextSink();
-	~vgaTextSink();
+    class SetForeground {
+    protected:
+        vga_color color;
 
-    //!@brief put the vga in 80x25 text mode
-    void init();
+    public:
 
-	vgaTextSink& operator<< (char c);
-	vgaTextSink& operator<< (sString string);
-	vgaTextSink& operator<< (unsigned int i);
-	void backspace();
+        vgaSetForeground(vga_color new_color) : color(new_color) { }
 
-	void setColor(char newColor);
-	char getColor();
+        friend class textSink;
+    };
 
-	bool scroll(unsigned short lines);
-	void clear();
+    class SetBackground : public vgaSetForeground {
+    public:
 
-	bool putCursor(unsigned short pos);
-	void putCursor(void);
+        vgaSetBackground(vga_color new_color) : vgaSetForeground(new_color) { }
 
-private:
+        friend class textSink;
+    };
 
-    //point to the begining of vga memory
-	static char* const __vgaMemory;
-	unsigned short	__offset;
-	char __color;
+    class textSink {
+        public:
 
-    const static int LINE_CHARS;
-    const static int MAX_CHARS;
-}; //end class vgaTextSink
+            textSink();
+            ~textSink();
 
-} //end namespace kernal
+            textSink& operator<< (char c);
+            textSink& operator<< (sString string);
+            textSink& operator<< (kDWord i);
+
+            //effectors
+            textSink& operator<< (setBackground&);
+            textSink& operator<< (setForeground&);
+            void backspace();
+
+            void setTextColor(vga_color newColor);
+            vga_color getTextColor();
+
+            void setBackColor(vga_color newColor);
+            vga_color getBackColor();
+
+            bool scroll(kWord lines);
+            void clear();
+
+            bool putCursor(kWord pos);
+            void putCursor(void);
+
+        private:
+
+            //point to the begining of vga memory
+            static char* const vgaMemory;
+            kWord  offset;
+
+            kByte attribute;
+
+            const static int LINE_CHARS;
+            const static int MAX_CHARS;
+    }; //end class textSink
+
+} //end namespace vga
 
 #endif

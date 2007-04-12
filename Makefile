@@ -14,7 +14,7 @@ all : kernel.elf
 kernel.elf : kmain.o loader.o vgaTextSink.o linker.ld
 	$(LINK) -o $@ $(LOPT) $^
 
-kmain.o : kmain.cpp vgaTextSink.h stdlib.h multiboot.h idt.h
+kmain.o : kmain.cpp vgaTextSink.h stdlib.h multiboot.h
 vgaTextSink.o : vgaTextSink.h vgaTextSink.cpp ktypes.h dataMacro.h kPortIO.h
 loader.o : loader.s
 
@@ -42,4 +42,4 @@ boot-disk :
 
 .PHONY : clean
 clean :
-	rm object/*.o
+	rm *.o
