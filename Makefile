@@ -1,21 +1,29 @@
-CC=/usr/cross/bin/i586-elf-g++
-CXX=/usr/cross/bin/i586-elf-g++
-CXXFLAGS= -nostartfiles -nostdlib -fno-rtti -fno-exceptions -Wall -Werror
+CC=i586-elf-g++
+CXX=i586-elf-g++
+CXXFLAGS= -nostartfiles -nostdlib -fno-rtti -fno-exceptions -pedantic \
+	-Wall -Werror -Wshadow -Wextra -Wpointer-arith \
+	-Wcast-align -Wwrite-strings
 
-LINK=/usr/cross/bin/i586-elf-ld
+
+LINK=i586-elf-ld
 LOPT= -T linker.ld 
 
-AS=/usr/cross/bin/i586-elf-as
+AS=i586-elf-as
 AOPT=
+
+VPATH=. vga
 
 #build the kernel
 
 all : kernel.elf
-kernel.elf : kmain.o loader.o vgaTextSink.o linker.ld
+kernel.elf : kmain.o loader.o textSink.o linker.ld
 	$(LINK) -o $@ $(LOPT) $^
 
-kmain.o : kmain.cpp vgaTextSink.h stdlib.h multiboot.h
-vgaTextSink.o : vgaTextSink.h vgaTextSink.cpp ktypes.h dataMacro.h kPortIO.h
+kmain.o : kmain.cpp textSink.h stdlib.h multiboot.h
+textSink.o :
+	cd vga
+	$(MAKE)
+
 loader.o : loader.s
 
 #compile the kernel make a disk image and then fire up bochs
