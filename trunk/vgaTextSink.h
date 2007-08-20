@@ -1,7 +1,7 @@
 #ifndef TEXTSINK_H
 #define TEXTSINK_H
 
-#include "ktypes.h"
+#include "../ktypes.h"
 
 namespace vga {
 
@@ -14,21 +14,21 @@ namespace vga {
         light_magenta = 13, light_brown = 14,
         white = 15 };
 
-    class SetForeground {
+    class setForeground {
     protected:
         vga_color color;
 
     public:
 
-        vgaSetForeground(vga_color new_color) : color(new_color) { }
+        setForeground(vga_color new_color) : color(new_color) { }
 
         friend class textSink;
     };
 
-    class SetBackground : public vgaSetForeground {
+    class setBackground : public setForeground {
     public:
 
-        vgaSetBackground(vga_color new_color) : vgaSetForeground(new_color) { }
+        setBackground(vga_color new_color) : setForeground(new_color) { }
 
         friend class textSink;
     };
