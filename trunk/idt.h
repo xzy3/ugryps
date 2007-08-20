@@ -6,7 +6,7 @@
 
 namespace kernel {
 
-    typedef void (*interrupt_handler) ();
+    typedef void (*interrupt_handler)(void);
 
     class idt {
         private:
@@ -24,13 +24,13 @@ namespace kernel {
 
             } __attribute__ ((__packed__)) static table[256];
 
-            const int count = 256;
+            const static int count = 256;
 
         public:
 
             void load_idt(void);
 
-            void install_interrupt(interrupt_handler pointer, )
+            void install_interrupt(interrupt_handler pointer, int which);
 
     }; //end class idt
 
