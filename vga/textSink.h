@@ -1,7 +1,27 @@
+/*uGryps is a hobby microkernel operating system.
+ *Copyright (C) 2007 Seth Sims
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public Licence
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
+
 #ifndef TEXTSINK_H
 #define TEXTSINK_H
 
 #include "../ktypes.h"
+#include "../dataMacro.h"
+#include "../kPortIO.h"
 
 namespace vga {
 
@@ -14,21 +34,21 @@ namespace vga {
         light_magenta = 13, light_brown = 14,
         white = 15 };
 
-    class setForeground {
+    class setFore {
     protected:
         vga_color color;
 
     public:
 
-        setForeground(vga_color new_color) : color(new_color) { }
+        setFore(vga_color new_color) : color(new_color) { }
 
         friend class textSink;
     };
 
-    class setBackground : public setForeground {
+    class setBack: public setFore {
     public:
 
-        setBackground(vga_color new_color) : setForeground(new_color) { }
+        setBack(vga_color new_color) : setFore(new_color) { }
 
         friend class textSink;
     };
@@ -37,15 +57,21 @@ namespace vga {
         public:
 
             textSink();
+            textSink(vga_color fore, vga_color back);
             ~textSink();
 
             textSink& operator<< (char c);
             textSink& operator<< (sString string);
-            textSink& operator<< (kDWord i);
+            
+            textSink& operator<< (int i);
+            textSink& operator<< (unsigned int ui);
+            textSink& operator<< (long l);
+            textSink& operator<< (unsigned long ul);
+            textSink& operator<< (bool b);
 
             //effectors
-            textSink& operator<< (setBackground&);
-            textSink& operator<< (setForeground&);
+            textSink& operator<< (setBack color);
+            textSink& operator<< (setFore color);
             void backspace();
 
             void setTextColor(vga_color newColor);
@@ -63,11 +89,21 @@ namespace vga {
         private:
 
             //point to the begining of vga memory
-            static char* const vgaMemory;
-            kWord  offset;
+            static kByte* const vgaMemory;
+            static kWord  offset;
 
-            kByte attribute;
+            union {
 
+                kByte value;
+                struct {
+                    kByte foreground:4;
+                    kByte background:4;
+                } __attribute__ ((__packed__)) colors;
+
+            } attribute;
+
+            //note these are actually twice the line chars and maxchars
+            //because the chars and attributes are interleaved
             const static int LINE_CHARS;
             const static int MAX_CHARS;
     }; //end class textSink

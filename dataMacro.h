@@ -1,3 +1,6 @@
+#ifndef DATAMACRO_H
+#define DATAMACRO_H
+
 #include "ktypes.h"
 
 //returns the most significant byte in a two byte word
@@ -28,3 +31,4 @@ static __inline__ kWord lowWord(kDWord value) {
 
 } //end lowWord
 
+#endif
