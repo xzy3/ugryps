@@ -1,21 +1,24 @@
+#ifndef KPORTIO_H
+#define KPORTIO_H
+
 #include "ktypes.h"
 
 //functions to write to a dataport
 static __inline__ void outb(kWord port, kByte value) {
 
-	asm volatile("outb %0, %1"::"a"(value), "Nd" (port));
+	asm volatile("outb %0, %1"::"a"(value), "Nd"(port):);
 
 } //end outb
 
 static __inline__ void outw(kWord port, kWord value) {
 
-	asm volatile("outw %0, %1"::"a"(value), "Nd" (port));
+	asm volatile("outw %0, %1"::"a"(value), "Nd"(port):);
 
 } //end outw
 
 static __inline__ void outl(kWord port, kDWord value) {
 
-	asm volatile("outl %0, %1"::"a"(value), "Nd" (port));
+	asm volatile("outl %0, %1"::"a"(value), "Nd"(port):);
 
 } //end outl
 
@@ -24,7 +27,7 @@ static __inline__ kByte inb(kWord port) {
 
 	kByte temp;
 
-	asm volatile("inb %1, %0":"=a"(temp): "Nd" (port));
+	asm volatile("inb %1, %0":"=a"(temp): "Nd" (port):);
 
 	return temp;
 
@@ -34,7 +37,7 @@ static __inline__ kWord inw(kWord port) {
 
 	kWord temp;
 
-	asm volatile("inw %1, %0":"=a"(temp): "Nd" (port));
+	asm volatile("inw %1, %0":"=a"(temp): "Nd" (port):);
 
 	return temp;
 
@@ -44,13 +47,13 @@ static __inline__ kDWord inl(kWord port) {
 
 	kDWord temp;
 
-	asm volatile("inl %1, %0":"=a"(temp): "Nd" (port));
+	asm volatile("inl %1, %0":"=a"(temp): "Nd" (port):);
 
 	return temp;
 
 } //end inl
 
-//delays so a piece of hardware can react to an command
+//delays so a piece of hardware can react to a command
 static __inline__ void ioWait(void) {
 
 	//port 0x80 is used for "checkpoints" during POST
@@ -60,3 +63,5 @@ static __inline__ void ioWait(void) {
 	outb(0x80, 0);
 
 } //end ioWait
+
+#endif
