@@ -1,0 +1,7 @@
+floppya: image=/home/seth/grub_disk.img, status=inserted
+boot: floppy
+
+megs: 15
+
+vga: extension=none
+log: ~/.log.bochs

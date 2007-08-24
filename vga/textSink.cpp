@@ -40,6 +40,9 @@ textSink& textSink::operator<< (char c) {
     else if(c == '\r')
         offset -= offset % LINE_CHARS;
 
+    else if(c == '\t')
+        offset += 10 - offset % 10;
+
 	else if(c >= ' ') {
 		//if the screen is full
 		//scroll it up about half way
@@ -67,7 +70,7 @@ textSink& textSink::operator<< (sString string) {
 
 }//end operator<< ()
 
-/*
+
 textSink& textSink::operator<< (kByte b) {
 
     const char digits[] = "0123456789ABCDEF";
@@ -103,10 +106,10 @@ textSink& textSink::operator<< (kWord w) {
     return *this;
 } //end operator<<
 
-textSink& textSink::operator<< (kDWord dw) {
+textSink& textSink::operator<< (unsigned int dw) {
 
     const char digits[] = "0123456789ABCDEF";
-    *this << "0x";
+    *this << '0' << 'x';
 
     kByte temp = (dw >> 28) & 0xF;
     *this << (char)(digits[temp]);
@@ -134,7 +137,6 @@ textSink& textSink::operator<< (kDWord dw) {
 
     return *this;
 } //end operator<<
-*/
    
 textSink& textSink::operator<< (int i) {
 
@@ -143,33 +145,6 @@ textSink& textSink::operator<< (int i) {
 
     else 
         *this << (unsigned int) i;
-
-    return *this; 
-} //end operator<<
-
-textSink& textSink::operator<< (unsigned int ui) {
-
-    const char digits[] = "0123456789";
-    const unsigned int maxDigits = 35;
-
-    char buf[maxDigits];
-   
-    unsigned int value = ui;
-    unsigned int i = 1;
-
-    do {
-
-        buf[maxDigits - i] = digits[value % 10];
-        value /= 10;
-        i++;
-
-    } while(value > 0);
-
-    for(;i > 0;i--) {
-
-        *this << buf[maxDigits - i];
-
-    } //end for
 
     return *this; 
 } //end operator<<
@@ -196,16 +171,10 @@ textSink& textSink::operator<< (bool b) {
     return *this;
 } //end operator<<
 
-textSink& textSink::operator<< (setBack color) {
+textSink& textSink::operator<< ( textSink& (*func)(textSink&) ) {
 
-    setBackColor(color.color);
-    return *this;
+    func(*this);
 
-} //end operator<< 
-
-textSink& textSink::operator<< (setFore color) {
-
-    setTextColor(color.color);
     return *this;
 
 } //end operator<<
@@ -226,8 +195,8 @@ bool textSink::scroll(unsigned short lines) {
 	if(lines > 25)
 		return false;
 
-	int src = lines * LINE_CHARS;
-	int dest = 0;
+	unsigned int src = lines * LINE_CHARS;
+	unsigned int dest = 0;
 
 	//copy the lines to scroll the screen up
 	while(src < offset + 1) {
@@ -255,7 +224,7 @@ bool textSink::scroll(unsigned short lines) {
 
 void textSink::clear(void) {
 
-	for(int i = 0; i < MAX_CHARS; i += 2) {
+	for(unsigned int i = 0; i < MAX_CHARS; i += 2) {
 
 		vgaMemory[i] = ' ';
 		vgaMemory[i + 1] = attribute.value;
@@ -323,16 +292,62 @@ void textSink::putCursor(void) {
     outb(0x03D5, lowByte(offset));
 
 	//write the high byte of the offset
-	outb(0x03D4, 0x0E);
-	outb(0x03D5, highByte(offset));
+    outb(0x03D4, 0x0E);
+    outb(0x03D5, highByte(offset));
 
 } //end putCursor
+
+kWord textSink::getOffset() {
+
+    return offset;
+
+} //end getOffset()
+
+bool textSink::tell(kWord where) {
+
+    if(where < MAX_CHARS) {
+
+        offset = where;
+        return true;
+
+    } else
+        return false;
+
+} //end tell
+
+//move the offset to a certan row and collum
+bool textSink::tell(kWord row, kWord col) {
+
+    kDWord temp = row * LINE_CHARS + col * 2;
+
+    if(temp < MAX_CHARS) {
+
+        offset = temp;
+        return true;
+
+     } else 
+
+        return false;
+
+} //end tell
+
+bool textSink::tellRow(kWord row) {
+
+    return tell(row, offset % LINE_CHARS);
+
+} //end tellRow
+
+bool textSink::tellCol(kWord col) {
+
+    return tell(offset / LINE_CHARS, col);
+
+} //end tellCol
 
 //point to the begining of vga memory
 kByte* const textSink::vgaMemory = reinterpret_cast<kByte* const>(0xB8000);
 
 kWord textSink::offset = 0;
 
-const int textSink::LINE_CHARS = 160;
-const int textSink::MAX_CHARS = 4000;
+const unsigned int textSink::LINE_CHARS = 160;
+const unsigned int textSink::MAX_CHARS = 4000;
 
