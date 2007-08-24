@@ -34,25 +34,6 @@ namespace vga {
         light_magenta = 13, light_brown = 14,
         white = 15 };
 
-    class setFore {
-    protected:
-        vga_color color;
-
-    public:
-
-        setFore(vga_color new_color) : color(new_color) { }
-
-        friend class textSink;
-    };
-
-    class setBack: public setFore {
-    public:
-
-        setBack(vga_color new_color) : setFore(new_color) { }
-
-        friend class textSink;
-    };
-
     class textSink {
         public:
 
@@ -62,16 +43,16 @@ namespace vga {
 
             textSink& operator<< (char c);
             textSink& operator<< (sString string);
-            
+ 
+            textSink& operator<< (kByte b);
+            textSink& operator<< (kWord w);
             textSink& operator<< (int i);
             textSink& operator<< (unsigned int ui);
             textSink& operator<< (long l);
             textSink& operator<< (unsigned long ul);
             textSink& operator<< (bool b);
 
-            //effectors
-            textSink& operator<< (setBack color);
-            textSink& operator<< (setFore color);
+	    	textSink& operator<< (textSink& (*func)(textSink&));
             void backspace();
 
             void setTextColor(vga_color newColor);
@@ -85,6 +66,13 @@ namespace vga {
 
             bool putCursor(kWord pos);
             void putCursor(void);
+
+			kWord getOffset();
+
+			bool tell(kWord where);
+		    bool tell(kWord row, kWord col);
+			bool tellCol(kWord col);
+			bool tellRow(kWord row);
 
         private:
 
@@ -104,9 +92,118 @@ namespace vga {
 
             //note these are actually twice the line chars and maxchars
             //because the chars and attributes are interleaved
-            const static int LINE_CHARS;
-            const static int MAX_CHARS;
+            const static unsigned int LINE_CHARS;
+            const static unsigned int MAX_CHARS;
     }; //end class textSink
+
+    
+    //FIXME: The operator<<'s below cause linker problems
+    //       they have been supressed with a linker option
+    //       but i hope to find a way to fix them.
+    //       Apparently when they are first used in kMain
+    //       they are put in the symbol table as members of textSink
+    //       but when actually defined they are not and ld 
+    //       cant figure that out.
+	class setFore {
+	public:
+
+		vga_color color;
+
+		setFore(vga_color new_color) : color(new_color) { }
+
+	};
+
+	textSink& operator<<(textSink& sink, setFore c) {
+
+		sink.setTextColor(c.color);
+
+		return sink;
+	} //end operator<< 
+
+
+	class setBack : public setFore {
+	public:
+
+		setBack(vga_color new_color) : setFore(new_color) { }
+		
+	};
+	
+	textSink& operator<<(textSink& sink, setBack b) {
+
+			sink.setBackColor(b.color);
+			
+			return sink;
+	} //end operator<< 
+
+    #define maxDigits 36
+    class dec {
+    public:
+        char buffer[maxDigits];
+        bool neg;
+
+        dec(long unsigned int in) { neg = false; convert(in); }
+        dec(unsigned int in) { neg = false; convert(in); }
+        dec(long int in) { 
+
+            if(in < 0)
+                neg = true;
+            else
+                neg = false;
+
+            convert(in);
+        } //end constructor
+            
+        dec(int in) {
+
+            if(in < 0) 
+                neg = true;
+            else
+                neg = false;
+
+            convert((unsigned int)in);
+
+        } //end constructor
+
+        void convert(unsigned int in) {
+
+            const char digits[] = "0123456789";
+
+            unsigned int value = in;
+            int i = 1;
+
+            do {
+
+                buffer[maxDigits - i] = digits[value % 10];
+                value /= 10;
+                ++i;
+
+            } while(value > 0);
+
+            int j = 0;
+            --i;
+            while(i >= 1) {
+
+                buffer[j] = buffer[maxDigits - i];
+
+                --i;
+                ++j;
+            } //end while 
+
+            buffer[j + 1] = '\0';
+
+        } //end convert
+
+    }; //end class dec
+    
+    textSink& operator<<(textSink& sink, dec str) {
+
+        if( str.neg )
+            sink << '-';
+
+        sink << str.buffer;
+
+        return sink;
+    } //end operator<<
 
 } //end namespace vga
 
