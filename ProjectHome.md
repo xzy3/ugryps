@@ -1,0 +1,1 @@
+uGryps is a hobbest operating system. I am developing this mainy for my own education. uGryps is planned to be a  pre-emptable microkernel os.
